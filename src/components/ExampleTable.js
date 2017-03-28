@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Card} from 'material-ui/Card';
+import Divider from 'material-ui/Divider';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 
 import Pagination from './Pagination';
@@ -50,6 +51,7 @@ class ExampleTable extends React.Component {
                   </TableRow>
                 </TableBody>
               </Table>
+              <Divider />
               <Pagination
                 total={1}
               />

@@ -45,14 +45,52 @@ const styles = {
 class Pagination extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.state = {
 
+        };
     }
 
     render(){
       const {total} = this.props;
+
         return (
-          <div>
-            {total}
+          <div style={styles.paginationContainer}>
+
+            <div style={styles.paginationSection}>
+              <div style={styles.paginationText}>
+              Page:
+              </div>
+              <SelectField
+                  style={styles.paginationSelect}
+                  value={"Hi"}
+              />
+            </div>
+
+
+            <div style={styles.paginationSection}>
+              <div style={styles.paginationText}>
+                Rows Per Page:
+              </div>
+              <SelectField
+              style={styles.paginationSelect}
+              />
+            </div>
+
+            <div style={styles.paginationSection}>
+              <div style={styles.paginationText}>
+                1 - 15 of 30
+              </div>
+            </div>
+
+            <div style={styles.paginationSection}>
+              <ChevronLeft
+                style={1 <= 1 ?  styles.navigationLeftFirstPage : styles.navigationLeft}
+                name={"navigationLeft"}
+                />
+              <ChevronRight
+              style={10 >= 100 ? styles.navigationRightLastPage: styles.navigationRight}
+              />
+            </div>
           </div>
         );
     }
