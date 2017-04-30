@@ -11,7 +11,7 @@ class ExampleTable extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-
+          rows: [15, 30, 45]
         };
     }
 
@@ -53,7 +53,8 @@ class ExampleTable extends React.Component {
               </Table>
               <Divider />
               <Pagination
-                total={1}
+                total={37}
+                rowsPerPage={[15,30,45]}
               />
             </Card>
           </MuiThemeProvider>
