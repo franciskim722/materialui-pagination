@@ -18,7 +18,8 @@ class ExampleTable extends React.Component {
           rowsPerPage: [5, 10, 15],
           rows: [],
           size: 5,
-          page: 1
+          page: 1,
+          total: 37
           }
     }
 
@@ -53,11 +54,10 @@ class ExampleTable extends React.Component {
               </Table>
               <Divider />
               <Pagination
-                total={37}
+                total={this.state.total}
                 rowsPerPage={[5, 10, 15]}
-                results={this.state.rows}
                 page={this.state.page}
-                numberOfRows={this.state.numberOfRows}
+                numberOfRows={this.state.size}
               />
             </Card>
           </MuiThemeProvider>

@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+
+import IconButton from 'material-ui/IconButton';
+
 import ChevronLeft from 'material-ui/svg-icons/navigation/chevron-left';
 import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right';
 
@@ -51,10 +54,10 @@ class TablePagination extends React.Component {
         this.state = {
           page: this.props.page,
           rowsPerPage: this.props.rowsPerPage,
-          rowsPerPageSelection: this.props.rowsPerPage[0],
           numberOfRows: this.props.numberOfRows,
           total: this.props.total
         };
+
         this.selectRowsPerPage = this.selectRowsPerPage.bind(this);
         this.selectPageNumber = this.selectPageNumber.bind(this);
 
@@ -65,7 +68,16 @@ class TablePagination extends React.Component {
     }
 
     selectRowsPerPage(){
-      this.setState({rowsPerPageSelection: parseInt(event.target.innerText)});
+      let updatedState =  Object.assign({}, this.state);
+      updatedState.numberOfRows = parseInt(event.target.innerText);
+      console.log(updatedState);
+      this.setState(updatedState);
+
+      // if(updatedState.numberOfRows > this.state.total && this.state.page !== 1){
+      //   updatedState.page--;
+      // } else {
+      //   this.setState(updatedState);
+      // }
     }
 
     selectPageNumber(){
@@ -74,10 +86,11 @@ class TablePagination extends React.Component {
 
     numberOfPages(){
       let numArray = [];
-      for(let i = 0; i < Math.ceil(this.state.total/15); i++){
+      for(let i = 0; i < Math.ceil(this.state.total/this.state.numberOfRows); i++){
         numArray.push(i+1);
       }
-      return numArray.map(function(pageValue, index){
+
+      return numArray.map((pageValue, index) => {
         return (
           <MenuItem key={index} value={pageValue} primaryText={pageValue}/>
         );
@@ -85,7 +98,7 @@ class TablePagination extends React.Component {
     }
 
     renderRowsPerPage(){
-      return this.state.rowsPerPage.map(function(rowValue, index){
+      return this.state.rowsPerPage.map((rowValue, index) => {
         return (
           <MenuItem key={index} value={rowValue} primaryText={rowValue}/>
         );
@@ -93,7 +106,11 @@ class TablePagination extends React.Component {
     }
 
     renderRowRange(){
-      console.log(this.state);
+      return (
+        <span>
+          {this.state.numberOfRows * this.state.page - this.state.numberOfRows + 1} - {this.state.numberOfRows * this.state.page < this.state.total ? this.state.numberOfRows * this.state.page : this.state.total}
+        </span>
+      );
     }
 
     render(){
@@ -120,7 +137,7 @@ class TablePagination extends React.Component {
               </div>
               <SelectField
               style={styles.paginationSelect}
-              value={this.state.rowsPerPageSelection}
+              value={this.state.numberOfRows}
               onChange={this.selectRowsPerPage}
               >
                 {this.renderRowsPerPage()}
@@ -134,11 +151,28 @@ class TablePagination extends React.Component {
             </div>
 
             <div style={styles.paginationSection}>
+            <IconButton
+            iconStyle={this.state.page <= 1 ?  styles.navigationLeftFirstPage : styles.navigationLeft}
+            name={"navigationLeft"}
+            disabled={this.state.page <= 1}
+            onTouchTap={() => {
+
+            }}>
               <ChevronLeft
-                name={"navigationLeft"}
+
                 />
+              </IconButton>
+              <IconButton
+              iconStyle={this.state.page >= this.state.total / this.state.numberOfRows ? styles.navigationRightLastPage: styles.navigationRight}
+              name={"navigationRight"}
+              disabled={this.state.page >= this.state.total / this.state.numberOfRows}
+              onTouchTap={() => {
+
+              }}>
               <ChevronRight
+
               />
+              </IconButton>
             </div>
           </div>
         );
@@ -148,7 +182,7 @@ class TablePagination extends React.Component {
 TablePagination.defaultProps = {
   total: 0,
   page: 1,
-  rowsPerPage: [15, 30, 45],
+  rowsPerPage: [10, 20, 30],
   numberOfRows: 10
 };
 
