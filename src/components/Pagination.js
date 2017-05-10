@@ -65,14 +65,29 @@ class TablePagination extends React.Component {
         this.renderRowRange = this.renderRowRange.bind(this);
 
         this.numberOfPages = this.numberOfPages.bind(this);
+
+        this.incrementPage = this.incrementPage.bind(this);
+        this.decrementPage = this.decrementPage.bind(this);
     }
 
     selectRowsPerPage(){
       let updatedState =  Object.assign({}, this.state);
       updatedState.numberOfRows = parseInt(event.target.innerText);
       console.log(updatedState);
-      this.setState(updatedState);
+      if( updatedState.numberOfRows * this.state.page > this.state.total ) {
+        console.log("Over");
+        // console.log(this.state.numberOfRows);
+        // console.log(updatedState);
+        // this.state.numberOfRows * this.state.page - this.state.numberOfRows + 1}
+        // updatedState.page = updatedState.numberOfRows % updatedState.total
 
+
+        console.log(updatedState.numberOfRows / updatedState.total);
+        this.setState(updatedState);
+      } else {
+        console.log("Under");
+        this.setState(updatedState)
+      }
       // if(updatedState.numberOfRows > this.state.total && this.state.page !== 1){
       //   updatedState.page--;
       // } else {
@@ -95,6 +110,18 @@ class TablePagination extends React.Component {
           <MenuItem key={index} value={pageValue} primaryText={pageValue}/>
         );
       });
+    }
+
+    incrementPage(){
+      let updatedState = Object.assign({}, this.state);
+      updatedState.page++
+      this.setState(updatedState);
+    }
+
+    decrementPage(){
+      let updatedState = Object.assign({}, this.state);
+      updatedState.page--;
+      this.setState(updatedState);
     }
 
     renderRowsPerPage(){
@@ -155,9 +182,7 @@ class TablePagination extends React.Component {
             iconStyle={this.state.page <= 1 ?  styles.navigationLeftFirstPage : styles.navigationLeft}
             name={"navigationLeft"}
             disabled={this.state.page <= 1}
-            onTouchTap={() => {
-
-            }}>
+            onTouchTap={this.decrementPage}>
               <ChevronLeft
 
                 />
@@ -166,9 +191,7 @@ class TablePagination extends React.Component {
               iconStyle={this.state.page >= this.state.total / this.state.numberOfRows ? styles.navigationRightLastPage: styles.navigationRight}
               name={"navigationRight"}
               disabled={this.state.page >= this.state.total / this.state.numberOfRows}
-              onTouchTap={() => {
-
-              }}>
+              onTouchTap={this.incrementPage}>
               <ChevronRight
 
               />
