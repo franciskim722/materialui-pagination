@@ -51,12 +51,6 @@ class TablePagination extends React.Component {
     constructor(props, context) {
         super(props, context);
 
-        this.state = {
-          page: this.props.page,
-          rowsPerPage: this.props.rowsPerPage,
-          numberOfRows: this.props.numberOfRows,
-          total: this.props.total
-        };
 
         this.selectRowsPerPage = this.selectRowsPerPage.bind(this);
         this.selectPageNumber = this.selectPageNumber.bind(this);
@@ -70,25 +64,28 @@ class TablePagination extends React.Component {
         this.decrementPage = this.decrementPage.bind(this);
     }
 
+
     selectRowsPerPage(){
-      const updatedState =  Object.assign({}, this.state);
+      const updatedState =  Object.assign({}, this.props);
       updatedState.numberOfRows = parseInt(event.target.innerText);
-      if( updatedState.numberOfRows * this.state.page > this.state.total ) {
-        let updatedPage = Math.ceil(this.state.total / updatedState.numberOfRows);
+      if( updatedState.numberOfRows * this.props.page > this.props.total ) {
+        let updatedPage = Math.ceil(this.props.total / updatedState.numberOfRows);
         updatedState.page = updatedPage;
-        this.setState(updatedState);
+        this.props.updateRows(updatedState);
       } else {
-        this.setState(updatedState)
+        this.props.updateRows(updatedState);
       }
     }
 
     selectPageNumber(){
-      this.setState({page: parseInt(event.target.innerText)});
+      const updatedState =  Object.assign({}, this.props);
+      updatedState.page = parseInt(event.target.innerText);
+      this.props.updateRows(updatedState);
     }
 
     numberOfPages(){
       let numArray = [];
-      for(let i = 0; i < Math.ceil(this.state.total/this.state.numberOfRows); i++){
+      for(let i = 0; i < Math.ceil(this.props.total/this.props.numberOfRows); i++){
         numArray.push(i+1);
       }
 
@@ -100,19 +97,19 @@ class TablePagination extends React.Component {
     }
 
     incrementPage(){
-      let updatedState = Object.assign({}, this.state);
-      updatedState.page++
-      this.setState(updatedState);
+      let updatedState = Object.assign({}, this.props);
+      updatedState.page++;
+      this.props.updateRows(updatedState);
     }
 
     decrementPage(){
-      let updatedState = Object.assign({}, this.state);
+      let updatedState = Object.assign({}, this.props);
       updatedState.page--;
-      this.setState(updatedState);
+      this.props.updateRows(updatedState);
     }
 
     renderRowsPerPage(){
-      return this.state.rowsPerPage.map((rowValue, index) => {
+      return this.props.rowsPerPage.map((rowValue, index) => {
         return (
           <MenuItem key={index} value={rowValue} primaryText={rowValue}/>
         );
@@ -122,7 +119,7 @@ class TablePagination extends React.Component {
     renderRowRange(){
       return (
         <span>
-          {this.state.numberOfRows * this.state.page - this.state.numberOfRows + 1} - {this.state.numberOfRows * this.state.page < this.state.total ? this.state.numberOfRows * this.state.page : this.state.total}
+          {this.props.numberOfRows * this.props.page - this.props.numberOfRows + 1} - {this.props.numberOfRows * this.props.page < this.props.total ? this.props.numberOfRows * this.props.page : this.props.total}
         </span>
       );
     }
@@ -138,10 +135,10 @@ class TablePagination extends React.Component {
               </div>
               <SelectField
                   style={styles.paginationSelect}
-                  value={this.state.page}
+                  value={this.props.page}
                   onChange={this.selectPageNumber}
               >
-                {this.numberOfPages()}
+                {this.props.total === 1 ? null : this.numberOfPages()}
               </SelectField>
             </div>
 
@@ -151,7 +148,7 @@ class TablePagination extends React.Component {
               </div>
               <SelectField
               style={styles.paginationSelect}
-              value={this.state.numberOfRows}
+              value={this.props.numberOfRows}
               onChange={this.selectRowsPerPage}
               >
                 {this.renderRowsPerPage()}
@@ -160,27 +157,25 @@ class TablePagination extends React.Component {
 
             <div style={styles.paginationSection}>
               <div style={styles.paginationText}>
-                {this.renderRowRange()}  of {this.state.total}
+                {this.renderRowRange()}  of {this.props.total}
               </div>
             </div>
 
             <div style={styles.paginationSection}>
             <IconButton
-            iconStyle={this.state.page <= 1 ?  styles.navigationLeftFirstPage : styles.navigationLeft}
+            iconStyle={this.props.page <= 1 ?  styles.navigationLeftFirstPage : styles.navigationLeft}
             name={"navigationLeft"}
-            disabled={this.state.page <= 1}
+            disabled={this.props.page <= 1}
             onTouchTap={this.decrementPage}>
               <ChevronLeft
-
                 />
               </IconButton>
               <IconButton
-              iconStyle={this.state.page >= this.state.total / this.state.numberOfRows ? styles.navigationRightLastPage: styles.navigationRight}
+              iconStyle={this.props.page >= this.props.total / this.props.numberOfRows ? styles.navigationRightLastPage: styles.navigationRight}
               name={"navigationRight"}
-              disabled={this.state.page >= this.state.total / this.state.numberOfRows}
+              disabled={this.props.page >= this.props.total / this.props.numberOfRows}
               onTouchTap={this.incrementPage}>
               <ChevronRight
-
               />
               </IconButton>
             </div>
@@ -200,7 +195,8 @@ TablePagination.propTypes = {
   total: PropTypes.number,
   page: PropTypes.number,
   numberOfRows: PropTypes.number,
-  rowsPerPage: PropTypes.array
+  rowsPerPage: PropTypes.array,
+  updateRows: PropTypes.func
 };
 
 export default TablePagination;

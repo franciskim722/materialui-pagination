@@ -14,7 +14,7 @@ export default {
     entry: path.resolve(__dirname, 'src/index'),
     target: 'web',
     output: {
-        path: __dirname + '/dist', // Note: Physical files are only output by the production build task `npm run build`.
+        path: __dirname + '/dist',
         publicPath: '/',
         filename: 'bundle.js'
     },

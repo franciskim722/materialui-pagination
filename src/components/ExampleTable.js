@@ -15,23 +15,31 @@ class ExampleTable extends React.Component {
         super(props, context);
 
         this.state = {
-          rowsPerPage: [5, 10, 15],
+          rowsPerPage: [5,10,15],
           rows: [],
-          size: 5,
+          numberOfRows: 5,
           page: 1,
-          total: 37
-          }
+          total: undefined
+        };
+
+          this.updateRows = this.updateRows.bind(this);
     }
 
 
     componentWillMount() {
-      RowApi.getRows(this.state.size, this.state.page)
-      .then((rows) => {
-        this.setState({rows});
+      RowApi.getRows(this.state)
+      .then((updatedState) => {
+        this.setState(updatedState);
       });
     }
 
-    //Render Content
+    updateRows(state){
+      RowApi.getRows(state)
+      .then((updatedState) => {
+        this.setState(updatedState);
+      });
+    }
+
     render(){
         return (
           <MuiThemeProvider>
@@ -39,7 +47,7 @@ class ExampleTable extends React.Component {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHeaderColumn>Number</TableHeaderColumn>
+                    <TableHeaderColumn>Fruit and Vegetables</TableHeaderColumn>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -55,9 +63,10 @@ class ExampleTable extends React.Component {
               <Divider />
               <Pagination
                 total={this.state.total}
-                rowsPerPage={[5, 10, 15]}
+                rowsPerPage={this.state.rowsPerPage}
                 page={this.state.page}
-                numberOfRows={this.state.size}
+                numberOfRows={this.state.numberOfRows}
+                updateRows={this.updateRows}
               />
             </Card>
           </MuiThemeProvider>
@@ -65,10 +74,4 @@ class ExampleTable extends React.Component {
     }
 }
 
-//Prop Type Validation
-ExampleTable.propTypes = {
-
-};
-
-//Connect to Redux
 export default ExampleTable;

@@ -1,19 +1,18 @@
-const rows = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
+const rows = ["Banana", "Orange", "Lemon", "Apple", "Mango", "Pineapple", "Watermelon"];
 
 class RowApi {
-  static getRows(size, page) {
+  static getRows(tableState) {
     return new Promise((resolve, reject) => {
 
       setTimeout(() => {
-        const searchRange = [];
+        const updatedState = Object.assign({}, tableState);
 
-        for(let i = 0; i < size; i++){
-          searchRange.push(i+1);
-        }
+        let searchRange = rows.slice(updatedState.numberOfRows * updatedState.page - updatedState.numberOfRows, updatedState.numberOfRows * updatedState.page);
 
-        console.log(searchRange);
-
-        resolve(Object.assign([], searchRange));
+        updatedState.rows = searchRange;
+        updatedState.total = rows.length;
+        updatedState.numberOfRows = updatedState.numberOfRows;
+        resolve(updatedState);
       }, 1000 );
 
     });
