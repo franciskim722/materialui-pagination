@@ -71,28 +71,15 @@ class TablePagination extends React.Component {
     }
 
     selectRowsPerPage(){
-      let updatedState =  Object.assign({}, this.state);
+      const updatedState =  Object.assign({}, this.state);
       updatedState.numberOfRows = parseInt(event.target.innerText);
-      console.log(updatedState);
       if( updatedState.numberOfRows * this.state.page > this.state.total ) {
-        console.log("Over");
-        // console.log(this.state.numberOfRows);
-        // console.log(updatedState);
-        // this.state.numberOfRows * this.state.page - this.state.numberOfRows + 1}
-        // updatedState.page = updatedState.numberOfRows % updatedState.total
-
-
-        console.log(updatedState.numberOfRows / updatedState.total);
+        let updatedPage = Math.ceil(this.state.total / updatedState.numberOfRows);
+        updatedState.page = updatedPage;
         this.setState(updatedState);
       } else {
-        console.log("Under");
         this.setState(updatedState)
       }
-      // if(updatedState.numberOfRows > this.state.total && this.state.page !== 1){
-      //   updatedState.page--;
-      // } else {
-      //   this.setState(updatedState);
-      // }
     }
 
     selectPageNumber(){
