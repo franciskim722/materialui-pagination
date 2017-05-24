@@ -1,7 +1,18 @@
 {
   "name": "materialui-pagination",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
+  "main": "./src/index.js",
+  "keywords": [
+    "react",
+    "react-component",
+    "material design",
+    "material-ui",
+    "materialui-pagination",
+    "material-ui-pagination",
+    "materialui-paginate",
+    "materialui-pagination"
+  ],
   "scripts": {
     "prestart": "babel-node tools/startMessage.js",
     "start": "npm-run-all --parallel open:src lint:watch",

@@ -47,7 +47,7 @@ class ExampleTable extends React.Component {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHeaderColumn>Fruit and Vegetables</TableHeaderColumn>
+                    <TableHeaderColumn>Row Number</TableHeaderColumn>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
