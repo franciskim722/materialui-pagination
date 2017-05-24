@@ -11,6 +11,11 @@ Based on [Material Design Data Table Guidelines](https://material.io/guidelines/
 $ npm install materialui-pagination
 ```
 
+```js
+  import Pagination from 'materialui-pagination';
+```
+
+
 ## Pagination Properties
 
 | Name | Type | Default | Description |
