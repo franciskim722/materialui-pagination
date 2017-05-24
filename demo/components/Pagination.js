@@ -47,7 +47,7 @@ const styles = {
   }
 };
 
-class TablePagination extends React.Component {
+class Pagination extends React.Component {
     constructor(props, context) {
         super(props, context);
 
@@ -184,14 +184,14 @@ class TablePagination extends React.Component {
     }
 }
 
-TablePagination.defaultProps = {
+Pagination.defaultProps = {
   total: 0,
   page: 1,
   rowsPerPage: [10, 20, 30],
   numberOfRows: 10
 };
 
-TablePagination.propTypes = {
+Pagination.propTypes = {
   total: PropTypes.number,
   page: PropTypes.number,
   numberOfRows: PropTypes.number,
@@ -199,4 +199,4 @@ TablePagination.propTypes = {
   updateRows: PropTypes.func
 };
 
-export default TablePagination;
+export default Pagination;
