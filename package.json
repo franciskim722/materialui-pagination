@@ -2,7 +2,7 @@
   "name": "materialui-pagination",
   "version": "0.0.4",
   "description": "",
-  "main": "./src/index.js",
+  "main": "./dist/bundle.js",
   "keywords": [
     "react",
     "react-component",
