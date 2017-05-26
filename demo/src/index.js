@@ -1,13 +1,23 @@
+//React
 import React  from 'react';
 import PropTypes from 'prop-types';
+import {render} from 'react-dom';
+
+//Material UI Dependency for touch / tap / click events
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
+
+//Material UI Components
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Card} from 'material-ui/Card';
 import Divider from 'material-ui/Divider';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 
-import Pagination from './Pagination';
+//Import the pagination component
+import Pagination from '../../src';
 
-import RowApi from '../api/rows';
+//Demo API to simulate async actions
+import RowApi from './api/rows';
 
 class ExampleTable extends React.Component {
 
@@ -74,4 +84,4 @@ class ExampleTable extends React.Component {
     }
 }
 
-export default ExampleTable;
+render(<ExampleTable />, document.querySelector('#demo'));
