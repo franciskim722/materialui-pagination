@@ -126,12 +126,14 @@ class Pagination extends React.Component {
 
     render(){
 
+      const { pageTitle, rowsPerPageTitle, prepositionForRowRange } = this.props;
+
       return (
           <div style={styles.paginationContainer}>
 
             <div style={styles.paginationSection}>
               <div style={styles.paginationText}>
-              Page:
+                {pageTitle}
               </div>
               <SelectField
                   style={styles.paginationSelect}
@@ -144,7 +146,7 @@ class Pagination extends React.Component {
 
             <div style={styles.paginationSection}>
               <div style={styles.paginationText}>
-                Rows Per Page:
+                {rowsPerPageTitle}
               </div>
               <SelectField
               style={styles.paginationSelect}
@@ -157,7 +159,7 @@ class Pagination extends React.Component {
 
             <div style={styles.paginationSection}>
               <div style={styles.paginationText}>
-                {this.renderRowRange()}  of {this.props.total}
+                {this.renderRowRange()} {prepositionForRowRange} {this.props.total}
               </div>
             </div>
 
@@ -188,7 +190,10 @@ Pagination.defaultProps = {
   total: 0,
   page: 1,
   rowsPerPage: [10, 20, 30],
-  numberOfRows: 10
+  numberOfRows: 10,
+  pageTitle: 'Page:',
+  rowsPerPageTitle: 'Rows Per Page:',
+  prepositionForRowRange: 'of'
 };
 
 Pagination.propTypes = {
@@ -196,7 +201,10 @@ Pagination.propTypes = {
   page: PropTypes.number,
   numberOfRows: PropTypes.number,
   rowsPerPage: PropTypes.array,
-  updateRows: PropTypes.func
+  updateRows: PropTypes.func,
+  pageTitle: PropTypes.string,
+  rowsPerPageTitle: PropTypes.string,
+  prepositionForRowRange: PropTypes.string
 };
 
 export default Pagination;
