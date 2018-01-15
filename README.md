@@ -113,3 +113,6 @@ $ npm install materialui-pagination
 | page | number | 1 | The selected page number. |
 | total | number | 0 | The total number of results in the dataset. |
 | updateRows | function |  | Callback function fired when the rows array is updated. |
+| pageTitle | string | 'Page:' | The title for the selected page number. |
+| rowsPerPageTitle | string | 'Rows Per Page:' | Title for the number of rows to display per page. |
+| prepositionForRowRange | string | 'of' | Preposition for the current range of numbers of displayed rows. |
