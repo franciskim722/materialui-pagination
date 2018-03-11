@@ -27,7 +27,8 @@ const styles = {
   },
   paginationSelect: {
     width: 75,
-    fontSize: '1em'
+    fontSize: '1em',
+    position: 'relative'
   },
   navigationLeft: {
     marginRight: '.5em',
@@ -48,142 +49,137 @@ const styles = {
 };
 
 class Pagination extends React.Component {
-    constructor(props, context) {
-        super(props, context);
+  constructor(props, context) {
+    super(props, context);
+
+    this.renderRowsPerPage = this.renderRowsPerPage.bind(this);
+    this.renderRowRange = this.renderRowRange.bind(this);
+
+    this.numberOfPages = this.numberOfPages.bind(this);
+
+    this.incrementPage = this.incrementPage.bind(this);
+    this.decrementPage = this.decrementPage.bind(this);
+  }
 
 
-        this.selectRowsPerPage = this.selectRowsPerPage.bind(this);
-        this.selectPageNumber = this.selectPageNumber.bind(this);
-
-        this.renderRowsPerPage = this.renderRowsPerPage.bind(this);
-        this.renderRowRange = this.renderRowRange.bind(this);
-
-        this.numberOfPages = this.numberOfPages.bind(this);
-
-        this.incrementPage = this.incrementPage.bind(this);
-        this.decrementPage = this.decrementPage.bind(this);
-    }
-
-
-    selectRowsPerPage(e){
-      const updatedState =  Object.assign({}, this.props);
-      updatedState.numberOfRows = parseInt(e.target.innerText, 10);
-      if( updatedState.numberOfRows * this.props.page > this.props.total ) {
-        let updatedPage = Math.ceil(this.props.total / updatedState.numberOfRows, 10);
-        updatedState.page = updatedPage;
-        this.props.updateRows(updatedState);
-      } else {
-        this.props.updateRows(updatedState);
-      }
-    }
-
-    selectPageNumber(e){
-      const updatedState =  Object.assign({}, this.props);
-      updatedState.page = parseInt(e.target.innerText, 10);
+  selectRowsPerPage(event, index, value){
+    const updatedState =  Object.assign({}, this.props);
+    updatedState.numberOfRows = parseInt(value);
+    if( updatedState.numberOfRows * this.props.page > this.props.total ) {
+      updatedState.page = Math.ceil(this.props.total / updatedState.numberOfRows);
+      this.props.updateRows(updatedState);
+    } else {
       this.props.updateRows(updatedState);
     }
+  }
 
-    numberOfPages(){
-      let numArray = [];
-      for(let i = 0; i < Math.ceil(this.props.total/this.props.numberOfRows); i++){
-        numArray.push(i+1);
-      }
+  selectPageNumber(event, index, value){
+    const updatedState =  Object.assign({}, this.props);
+    updatedState.page = parseInt(value);
+    this.props.updateRows(updatedState);
+  }
 
-      return numArray.map((pageValue, index) => {
-        return (
-          <MenuItem key={index} value={pageValue} primaryText={pageValue}/>
-        );
-      });
+  numberOfPages(){
+    let numArray = [];
+    for(let i = 0; i < Math.ceil(this.props.total/this.props.numberOfRows); i++){
+      numArray.push(i+1);
     }
 
-    incrementPage(){
-      let updatedState = Object.assign({}, this.props);
-      updatedState.page++;
-      this.props.updateRows(updatedState);
-    }
-
-    decrementPage(){
-      let updatedState = Object.assign({}, this.props);
-      updatedState.page--;
-      this.props.updateRows(updatedState);
-    }
-
-    renderRowsPerPage(){
-      return this.props.rowsPerPage.map((rowValue, index) => {
-        return (
-          <MenuItem key={index} value={rowValue} primaryText={rowValue}/>
-        );
-      });
-    }
-
-    renderRowRange(){
+    return numArray.map((pageValue, index) => {
       return (
-        <span>
+        <MenuItem key={index} value={pageValue} primaryText={pageValue}/>
+      );
+    });
+  }
+
+  incrementPage(){
+    let updatedState = Object.assign({}, this.props);
+    updatedState.page++;
+    this.props.updateRows(updatedState);
+  }
+
+  decrementPage(){
+    let updatedState = Object.assign({}, this.props);
+    updatedState.page--;
+    this.props.updateRows(updatedState);
+  }
+
+  renderRowsPerPage(){
+    return this.props.rowsPerPage.map((rowValue, index) => {
+      return (
+        <MenuItem key={index} value={rowValue} primaryText={rowValue}/>
+      );
+    });
+  }
+
+  renderRowRange(){
+    return (
+      <span>
           {this.props.numberOfRows * this.props.page - this.props.numberOfRows + 1} - {this.props.numberOfRows * this.props.page < this.props.total ? this.props.numberOfRows * this.props.page : this.props.total}
         </span>
-      );
-    }
+    );
+  }
 
-    render(){
+  render(){
 
-      const { pageTitle, rowsPerPageTitle, prepositionForRowRange } = this.props;
+    const { pageTitle, rowsPerPageTitle, prepositionForRowRange } = this.props;
 
-      return (
-          <div style={styles.paginationContainer}>
+    return (
+      <div style={styles.paginationContainer}>
 
-            <div style={styles.paginationSection}>
-              <div style={styles.paginationText}>
-                {pageTitle}
-              </div>
-              <SelectField
-                  style={styles.paginationSelect}
-                  value={this.props.page}
-                  onChange={this.selectPageNumber}
-              >
-                {this.props.total === 1 ? null : this.numberOfPages()}
-              </SelectField>
-            </div>
+        <div style={styles.paginationSection}>
+          <div style={styles.paginationText}>
+            {pageTitle}
+          </div>
+          <SelectField
+            style={styles.paginationSelect}
+            value={this.props.page}
+            onChange={this.selectPageNumber}
+          >
+            {this.props.total === 1 ? null : this.numberOfPages()}
+          </SelectField>
+        </div>
 
-            <div style={styles.paginationSection}>
-              <div style={styles.paginationText}>
-                {rowsPerPageTitle}
-              </div>
-              <SelectField
-              style={styles.paginationSelect}
-              value={this.props.numberOfRows}
-              onChange={this.selectRowsPerPage}
-              >
-                {this.renderRowsPerPage()}
-              </SelectField>
-            </div>
+        <div style={styles.paginationSection}>
+          <div style={styles.paginationText}>
+            {rowsPerPageTitle}
+          </div>
+          <SelectField
+            style={styles.paginationSelect}
+            value={this.props.numberOfRows}
+            onChange={this.selectRowsPerPage}
+          >
+            {this.renderRowsPerPage()}
+          </SelectField>
+        </div>
 
-            <div style={styles.paginationSection}>
-              <div style={styles.paginationText}>
-                {this.renderRowRange()} {prepositionForRowRange} {this.props.total}
-              </div>
-            </div>
+        <div style={styles.paginationSection}>
+          <div style={styles.paginationText}>
+            {this.renderRowRange()} {prepositionForRowRange} {this.props.total}
+          </div>
+        </div>
 
-            <div style={styles.paginationSection}>
-            <IconButton
+        <div style={styles.paginationSection}>
+          <IconButton
             iconStyle={this.props.page <= 1 ?  styles.navigationLeftFirstPage : styles.navigationLeft}
             name={"navigationLeft"}
             disabled={this.props.page <= 1}
             onTouchTap={this.decrementPage}>
-              <ChevronLeft
-                />
-              </IconButton>
-              <IconButton
-              iconStyle={this.props.page >= this.props.total / this.props.numberOfRows ? styles.navigationRightLastPage: styles.navigationRight}
-              name={"navigationRight"}
-              disabled={this.props.page >= this.props.total / this.props.numberOfRows}
-              onTouchTap={this.incrementPage}>
-              <ChevronRight
-              />
-              </IconButton>
-            </div>
-          </div>
-        );
-    }
+            <ChevronLeft
+            />
+          </IconButton>
+          <IconButton
+            iconStyle={this.props.page >= this.props.total / this.props.numberOfRows ? styles.navigationRightLastPage: styles.navigationRight}
+            name={"navigationRight"}
+            disabled={this.props.page >= this.props.total / this.props.numberOfRows}
+            onTouchTap={this.incrementPage}>
+            <ChevronRight
+            />
+          </IconButton>
+        </div>
+      </div>
+    );
+  }
 }
 
 Pagination.defaultProps = {

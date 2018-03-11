@@ -33,7 +33,8 @@ var styles = {
   },
   paginationSelect: {
     width: 75,
-    fontSize: '1em'
+    fontSize: '1em',
+    position: 'relative'
   },
   navigationLeft: {
     marginRight: '.5em',
@@ -74,9 +75,9 @@ var Pagination = function (_React$Component) {
     return _this;
   }
 
-  Pagination.prototype.selectRowsPerPage = function selectRowsPerPage() {
+  Pagination.prototype.selectRowsPerPage = function selectRowsPerPage(event, index, value) {
     var updatedState = Object.assign({}, this.props);
-    updatedState.numberOfRows = parseInt(event.target.innerText);
+    updatedState.numberOfRows = parseInt(value);
     if (updatedState.numberOfRows * this.props.page > this.props.total) {
       var updatedPage = Math.ceil(this.props.total / updatedState.numberOfRows);
       updatedState.page = updatedPage;
@@ -86,9 +87,9 @@ var Pagination = function (_React$Component) {
     }
   };
 
-  Pagination.prototype.selectPageNumber = function selectPageNumber() {
+  Pagination.prototype.selectPageNumber = function selectPageNumber(event, index, value) {
     var updatedState = Object.assign({}, this.props);
-    updatedState.page = parseInt(event.target.innerText);
+    updatedState.page = parseInt(value);
     this.props.updateRows(updatedState);
   };
 
