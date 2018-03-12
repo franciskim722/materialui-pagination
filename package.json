@@ -28,6 +28,7 @@
     "react-dom": "^15.4.0 || ^16.0.0"
   },
   "devDependencies": {
+    "enzyme": "^3.3.0",
     "nwb": "0.21.x",
     "react": "^15.4.0 || ^16.0.0",
     "react-dom": "^15.4.0 || ^16.0.0"
@@ -40,7 +41,7 @@
     "url": "git+https://github.com/franciskim722/materialui-pagination.git"
   },
   "bugs": {
-  "url": "https://github.com/franciskim722/materialui-pagination/issues"
+    "url": "https://github.com/franciskim722/materialui-pagination/issues"
   },
   "keywords": [
     "react",
