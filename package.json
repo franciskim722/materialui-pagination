@@ -28,9 +28,12 @@
     "react-dom": "^15.4.0 || ^16.0.0"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "jest": "^22.4.2",
+=======
+>>>>>>> parent of 0c87e20... + jest
     "nwb": "0.21.x",
     "react": "^15.4.0 || ^16.0.0",
     "react-dom": "^15.4.0 || ^16.0.0"
@@ -43,7 +46,7 @@
     "url": "git+https://github.com/franciskim722/materialui-pagination.git"
   },
   "bugs": {
-    "url": "https://github.com/franciskim722/materialui-pagination/issues"
+  "url": "https://github.com/franciskim722/materialui-pagination/issues"
   },
   "keywords": [
     "react",
