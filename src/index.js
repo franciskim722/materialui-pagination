@@ -66,10 +66,12 @@ class Pagination extends React.Component {
 
 
     selectRowsPerPage(e){
+      const { page,total } = this.props;
+      const { innerText } = e.target;
       const updatedState =  Object.assign({}, this.props);
-      updatedState.numberOfRows = parseInt(e.target.innerText, 10);
-      if( updatedState.numberOfRows * this.props.page > this.props.total ) {
-        let updatedPage = Math.ceil(this.props.total / updatedState.numberOfRows, 10);
+      updatedState.numberOfRows = parseInt(innerText, 10);
+      if( updatedState.numberOfRows * page > total ) {
+        let updatedPage = Math.ceil(total / updatedState.numberOfRows, 10);
         updatedState.page = updatedPage;
         this.props.updateRows(updatedState);
       } else {
@@ -78,14 +80,16 @@ class Pagination extends React.Component {
     }
 
     selectPageNumber(e){
+      const { innerText } = e.target;
       const updatedState =  Object.assign({}, this.props);
-      updatedState.page = parseInt(e.target.innerText, 10);
+      updatedState.page = parseInt(innerText, 10);
       this.props.updateRows(updatedState);
     }
 
     numberOfPages(){
+      const { total, numberOfRows } = this.props;
       let numArray = [];
-      for(let i = 0; i < Math.ceil(this.props.total/this.props.numberOfRows); i++){
+      for(let i = 0; i < Math.ceil(total/numberOfRows); i++){
         numArray.push(i+1);
       }
 
@@ -109,7 +113,8 @@ class Pagination extends React.Component {
     }
 
     renderRowsPerPage(){
-      return this.props.rowsPerPage.map((rowValue, index) => {
+      const { rowsPerPage } = this.props;
+      return rowsPerPage.map((rowValue, index) => {
         return (
           <MenuItem key={index} value={rowValue} primaryText={rowValue}/>
         );
@@ -117,16 +122,17 @@ class Pagination extends React.Component {
     }
 
     renderRowRange(){
+      const { numberOfRows,page,total } = this.props;
       return (
         <span>
-          {this.props.numberOfRows * this.props.page - this.props.numberOfRows + 1} - {this.props.numberOfRows * this.props.page < this.props.total ? this.props.numberOfRows * this.props.page : this.props.total}
+          {numberOfRows * page - numberOfRows + 1} - {numberOfRows * page < total ? numberOfRows * page : total}
         </span>
       );
     }
 
     render(){
 
-      const { pageTitle, rowsPerPageTitle, prepositionForRowRange } = this.props;
+      const { page,pageTitle,rowsPerPageTitle,prepositionForRowRange,numberOfRows,total } = this.props;
 
       return (
           <div style={styles.paginationContainer}>
@@ -137,7 +143,7 @@ class Pagination extends React.Component {
               </div>
               <SelectField
                   style={styles.paginationSelect}
-                  value={this.props.page}
+                  value={page}
                   onChange={this.selectPageNumber}
               >
                 {this.props.total === 1 ? null : this.numberOfPages()}
@@ -150,7 +156,7 @@ class Pagination extends React.Component {
               </div>
               <SelectField
               style={styles.paginationSelect}
-              value={this.props.numberOfRows}
+              value={numberOfRows}
               onChange={this.selectRowsPerPage}
               >
                 {this.renderRowsPerPage()}
@@ -159,23 +165,23 @@ class Pagination extends React.Component {
 
             <div style={styles.paginationSection}>
               <div style={styles.paginationText}>
-                {this.renderRowRange()} {prepositionForRowRange} {this.props.total}
+                {this.renderRowRange()} {prepositionForRowRange} {total}
               </div>
             </div>
 
             <div style={styles.paginationSection}>
             <IconButton
-            iconStyle={this.props.page <= 1 ?  styles.navigationLeftFirstPage : styles.navigationLeft}
+            iconStyle={page <= 1 ?  styles.navigationLeftFirstPage : styles.navigationLeft}
             name={"navigationLeft"}
-            disabled={this.props.page <= 1}
+            disabled={page <= 1}
             onTouchTap={this.decrementPage}>
               <ChevronLeft
                 />
               </IconButton>
               <IconButton
-              iconStyle={this.props.page >= this.props.total / this.props.numberOfRows ? styles.navigationRightLastPage: styles.navigationRight}
+              iconStyle={page >= total / numberOfRows ? styles.navigationRightLastPage: styles.navigationRight}
               name={"navigationRight"}
-              disabled={this.props.page >= this.props.total / this.props.numberOfRows}
+              disabled={page >= total / numberOfRows}
               onTouchTap={this.incrementPage}>
               <ChevronRight
               />
