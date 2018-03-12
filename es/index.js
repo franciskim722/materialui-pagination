@@ -75,10 +75,15 @@ var Pagination = function (_React$Component) {
   }
 
   Pagination.prototype.selectRowsPerPage = function selectRowsPerPage(e) {
+    var _props = this.props,
+        page = _props.page,
+        total = _props.total;
+    var innerText = e.target.innerText;
+
     var updatedState = Object.assign({}, this.props);
-    updatedState.numberOfRows = parseInt(e.target.innerText, 10);
-    if (updatedState.numberOfRows * this.props.page > this.props.total) {
-      var updatedPage = Math.ceil(this.props.total / updatedState.numberOfRows, 10);
+    updatedState.numberOfRows = parseInt(innerText, 10);
+    if (updatedState.numberOfRows * page > total) {
+      var updatedPage = Math.ceil(total / updatedState.numberOfRows, 10);
       updatedState.page = updatedPage;
       this.props.updateRows(updatedState);
     } else {
@@ -87,14 +92,20 @@ var Pagination = function (_React$Component) {
   };
 
   Pagination.prototype.selectPageNumber = function selectPageNumber(e) {
+    var innerText = e.target.innerText;
+
     var updatedState = Object.assign({}, this.props);
-    updatedState.page = parseInt(e.target.innerText, 10);
+    updatedState.page = parseInt(innerText, 10);
     this.props.updateRows(updatedState);
   };
 
   Pagination.prototype.numberOfPages = function numberOfPages() {
+    var _props2 = this.props,
+        total = _props2.total,
+        numberOfRows = _props2.numberOfRows;
+
     var numArray = [];
-    for (var i = 0; i < Math.ceil(this.props.total / this.props.numberOfRows); i++) {
+    for (var i = 0; i < Math.ceil(total / numberOfRows); i++) {
       numArray.push(i + 1);
     }
 
@@ -116,26 +127,36 @@ var Pagination = function (_React$Component) {
   };
 
   Pagination.prototype.renderRowsPerPage = function renderRowsPerPage() {
-    return this.props.rowsPerPage.map(function (rowValue, index) {
+    var rowsPerPage = this.props.rowsPerPage;
+
+    return rowsPerPage.map(function (rowValue, index) {
       return React.createElement(MenuItem, { key: index, value: rowValue, primaryText: rowValue });
     });
   };
 
   Pagination.prototype.renderRowRange = function renderRowRange() {
+    var _props3 = this.props,
+        numberOfRows = _props3.numberOfRows,
+        page = _props3.page,
+        total = _props3.total;
+
     return React.createElement(
       'span',
       null,
-      this.props.numberOfRows * this.props.page - this.props.numberOfRows + 1,
+      numberOfRows * page - numberOfRows + 1,
       ' - ',
-      this.props.numberOfRows * this.props.page < this.props.total ? this.props.numberOfRows * this.props.page : this.props.total
+      numberOfRows * page < total ? numberOfRows * page : total
     );
   };
 
   Pagination.prototype.render = function render() {
-    var _props = this.props,
-        pageTitle = _props.pageTitle,
-        rowsPerPageTitle = _props.rowsPerPageTitle,
-        prepositionForRowRange = _props.prepositionForRowRange;
+    var _props4 = this.props,
+        page = _props4.page,
+        pageTitle = _props4.pageTitle,
+        rowsPerPageTitle = _props4.rowsPerPageTitle,
+        prepositionForRowRange = _props4.prepositionForRowRange,
+        numberOfRows = _props4.numberOfRows,
+        total = _props4.total;
 
 
     return React.createElement(
@@ -153,7 +174,7 @@ var Pagination = function (_React$Component) {
           SelectField,
           {
             style: styles.paginationSelect,
-            value: this.props.page,
+            value: page,
             onChange: this.selectPageNumber
           },
           this.props.total === 1 ? null : this.numberOfPages()
@@ -171,7 +192,7 @@ var Pagination = function (_React$Component) {
           SelectField,
           {
             style: styles.paginationSelect,
-            value: this.props.numberOfRows,
+            value: numberOfRows,
             onChange: this.selectRowsPerPage
           },
           this.renderRowsPerPage()
@@ -187,7 +208,7 @@ var Pagination = function (_React$Component) {
           ' ',
           prepositionForRowRange,
           ' ',
-          this.props.total
+          total
         )
       ),
       React.createElement(
@@ -196,18 +217,18 @@ var Pagination = function (_React$Component) {
         React.createElement(
           IconButton,
           {
-            iconStyle: this.props.page <= 1 ? styles.navigationLeftFirstPage : styles.navigationLeft,
+            iconStyle: page <= 1 ? styles.navigationLeftFirstPage : styles.navigationLeft,
             name: "navigationLeft",
-            disabled: this.props.page <= 1,
+            disabled: page <= 1,
             onTouchTap: this.decrementPage },
           React.createElement(ChevronLeft, null)
         ),
         React.createElement(
           IconButton,
           {
-            iconStyle: this.props.page >= this.props.total / this.props.numberOfRows ? styles.navigationRightLastPage : styles.navigationRight,
+            iconStyle: page >= total / numberOfRows ? styles.navigationRightLastPage : styles.navigationRight,
             name: "navigationRight",
-            disabled: this.props.page >= this.props.total / this.props.numberOfRows,
+            disabled: page >= total / numberOfRows,
             onTouchTap: this.incrementPage },
           React.createElement(ChevronRight, null)
         )
