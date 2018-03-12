@@ -74,11 +74,11 @@ var Pagination = function (_React$Component) {
     return _this;
   }
 
-  Pagination.prototype.selectRowsPerPage = function selectRowsPerPage() {
+  Pagination.prototype.selectRowsPerPage = function selectRowsPerPage(e) {
     var updatedState = Object.assign({}, this.props);
-    updatedState.numberOfRows = parseInt(event.target.innerText);
+    updatedState.numberOfRows = parseInt(e.target.innerText, 10);
     if (updatedState.numberOfRows * this.props.page > this.props.total) {
-      var updatedPage = Math.ceil(this.props.total / updatedState.numberOfRows);
+      var updatedPage = Math.ceil(this.props.total / updatedState.numberOfRows, 10);
       updatedState.page = updatedPage;
       this.props.updateRows(updatedState);
     } else {
@@ -86,9 +86,9 @@ var Pagination = function (_React$Component) {
     }
   };
 
-  Pagination.prototype.selectPageNumber = function selectPageNumber() {
+  Pagination.prototype.selectPageNumber = function selectPageNumber(e) {
     var updatedState = Object.assign({}, this.props);
-    updatedState.page = parseInt(event.target.innerText);
+    updatedState.page = parseInt(e.target.innerText, 10);
     this.props.updateRows(updatedState);
   };
 
@@ -132,6 +132,11 @@ var Pagination = function (_React$Component) {
   };
 
   Pagination.prototype.render = function render() {
+    var _props = this.props,
+        pageTitle = _props.pageTitle,
+        rowsPerPageTitle = _props.rowsPerPageTitle,
+        prepositionForRowRange = _props.prepositionForRowRange;
+
 
     return React.createElement(
       'div',
@@ -142,7 +147,7 @@ var Pagination = function (_React$Component) {
         React.createElement(
           'div',
           { style: styles.paginationText },
-          'Page:'
+          pageTitle
         ),
         React.createElement(
           SelectField,
@@ -160,7 +165,7 @@ var Pagination = function (_React$Component) {
         React.createElement(
           'div',
           { style: styles.paginationText },
-          'Rows Per Page:'
+          rowsPerPageTitle
         ),
         React.createElement(
           SelectField,
@@ -179,7 +184,9 @@ var Pagination = function (_React$Component) {
           'div',
           { style: styles.paginationText },
           this.renderRowRange(),
-          '  of ',
+          ' ',
+          prepositionForRowRange,
+          ' ',
           this.props.total
         )
       ),
@@ -215,15 +222,21 @@ Pagination.defaultProps = {
   total: 0,
   page: 1,
   rowsPerPage: [10, 20, 30],
-  numberOfRows: 10
+  numberOfRows: 10,
+  pageTitle: 'Page:',
+  rowsPerPageTitle: 'Rows Per Page:',
+  prepositionForRowRange: 'of'
 };
 
-process.env.NODE_ENV !== "production" ? Pagination.propTypes = {
+Pagination.propTypes = process.env.NODE_ENV !== "production" ? {
   total: PropTypes.number,
   page: PropTypes.number,
   numberOfRows: PropTypes.number,
   rowsPerPage: PropTypes.array,
-  updateRows: PropTypes.func
-} : void 0;
+  updateRows: PropTypes.func,
+  pageTitle: PropTypes.string,
+  rowsPerPageTitle: PropTypes.string,
+  prepositionForRowRange: PropTypes.string
+} : {};
 
 export default Pagination;
