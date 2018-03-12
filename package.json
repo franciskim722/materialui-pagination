@@ -21,12 +21,11 @@
   "dependencies": {
     "material-ui": "^0.17.0",
     "prop-types": "^15.5.8",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2",
     "react-tap-event-plugin": "^2.0.1"
   },
   "peerDependencies": {
-    "react": "15.x"
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
   },
   "devDependencies": {
     "nwb": "0.21.x",
