@@ -13,7 +13,7 @@ import Pagination from 'src/';
 
 const updateRows = (mockState) => {
   const updatedState = Object.assign({}, mockState);
-
+  const rows = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
   let searchRange = rows.slice(updatedState.numberOfRows * updatedState.page - updatedState.numberOfRows, updatedState.numberOfRows * updatedState.page);
 
   updatedState.rows = searchRange;
@@ -51,7 +51,16 @@ describe('Component', () => {
     expect(wrapper.props().pageTitle).toEqual('Page:');
     expect(wrapper.props().rowsPerPageTitle).toEqual('Rows Per Page:');
     expect(wrapper.props().prepositionForRowRange).toEqual('of');
-    console.log(wrapper.props().updateRows);
-    // expect(wrapper.props().updateRows()).toEqual("Update Rows");
+  });
+
+  it('Updates rows correctly', () => {
+    const mockState = {
+      rowsPerPage: [5,10,15],
+      rows: [],
+      numberOfRows: 5,
+      page: 1,
+      total: undefined
+    };
+    expect(wrapper.props().updateRows(mockState).total).toEqual(15);
   });
 });
