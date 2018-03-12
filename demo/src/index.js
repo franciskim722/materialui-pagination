@@ -32,7 +32,7 @@ class ExampleTable extends React.Component {
           total: undefined
         };
 
-          this.updateRows = this.updateRows.bind(this);
+        this.updateRows = this.updateRows.bind(this);
     }
 
 
@@ -51,6 +51,7 @@ class ExampleTable extends React.Component {
     }
 
     render(){
+      const {rows, total, rowsPerPage, page, numberOfRows} = this.state;
         return (
           <MuiThemeProvider>
             <Card>
@@ -61,7 +62,7 @@ class ExampleTable extends React.Component {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                {this.state.rows.map((row, index) => {
+                {rows.map((row, index) => {
                     return (
                       <TableRow key={index}>
                         <TableRowColumn>{row}</TableRowColumn>
@@ -72,10 +73,10 @@ class ExampleTable extends React.Component {
               </Table>
               <Divider />
               <Pagination
-                total={this.state.total}
-                rowsPerPage={this.state.rowsPerPage}
-                page={this.state.page}
-                numberOfRows={this.state.numberOfRows}
+                total={total}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                numberOfRows={numberOfRows}
                 updateRows={this.updateRows}
               />
             </Card>
